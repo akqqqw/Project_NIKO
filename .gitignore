@@ -7,4 +7,3 @@ instance/
 .env
 .envrc
 .DS_Store
-app/static/uploads/
