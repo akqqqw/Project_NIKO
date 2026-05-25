@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Страница не найдена | Travel NIKO{% endblock %}
+
+{% block content %}
+<div class="rounded-3xl bg-white border border-slate-200 p-12 text-center shadow-sm">
+    <h1 class="text-5xl font-bold text-slate-900">404</h1>
+    <p class="mt-4 text-xl text-slate-600">Страница не найдена.</p>
+    <a href="{{ url_for('main.home') }}" class="mt-8 inline-flex rounded-full bg-cyan-600 px-6 py-3 text-sm font-semibold text-white hover:bg-cyan-700">Вернуться на главную</a>
+</div>
+{% endblock %}

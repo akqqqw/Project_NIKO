@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ agency.name }} | Travel NIKO{% endblock %}
+
+{% block content %}
+<div class="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
+    <section class="rounded-3xl bg-white border border-slate-200 p-8 shadow-sm">
+        <img src="{{ url_for('static', filename='uploads/' ~ agency.image_file) }}" alt="{{ agency.name }}" class="h-72 w-full object-cover rounded-3xl">
+        <div class="mt-8">
+            <h1 class="text-3xl font-semibold text-slate-900">{{ agency.name }}</h1>
+            <p class="mt-4 text-slate-600">{{ agency.description }}</p>
+            <div class="mt-6 rounded-3xl bg-slate-50 p-6">
+                <h2 class="text-lg font-semibold text-slate-900">Контакты</h2>
+                <p class="mt-2 text-slate-600">{{ agency.contact_info }}</p>
+            </div>
+        </div>
+    </section>
+    <aside class="space-y-4">
+        <div class="rounded-3xl bg-white border border-slate-200 p-6 shadow-sm">
+            <h2 class="text-xl font-semibold text-slate-900">Туры этого агентства</h2>
+            <div class="mt-4 space-y-3">
+                {% for tour in agency.tours %}
+                    <a href="{{ url_for('tours.tour_detail', tour_id=tour.id) }}" class="block rounded-3xl border border-slate-200 p-4 text-slate-700 hover:border-cyan-300 hover:text-slate-900">{{ tour.title }}</a>
+                {% endfor %}
+                {% if not agency.tours %}
+                    <p class="text-slate-600">Пока нет туров.</p>
+                {% endif %}
+            </div>
+        </div>
+        {% if current_user.is_authenticated and current_user.is_admin %}
+            <div class="rounded-3xl bg-white border border-slate-200 p-6 shadow-sm space-y-3">
+                <a href="{{ url_for('agencies.edit_agency', agency_id=agency.id) }}" class="block rounded-2xl border border-cyan-600 px-4 py-3 text-center text-sm font-semibold text-cyan-600 hover:bg-cyan-50">Редактировать</a>
+                <form method="POST" action="{{ url_for('agencies.delete_agency', agency_id=agency.id) }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="w-full rounded-2xl bg-red-600 px-4 py-3 text-sm font-semibold text-white hover:bg-red-700">Удалить агентство</button>
+                </form>
+            </div>
+        {% endif %}
+    </aside>
+</div>
+{% endblock %}

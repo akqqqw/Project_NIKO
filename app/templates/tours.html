@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Туры | Travel NIKO{% endblock %}
+
+{% block content %}
+<div class="flex flex-col gap-4">
+    <div>
+        <h1 class="text-2xl sm:text-3xl font-semibold text-slate-900">Туры</h1>
+        <p class="mt-1 sm:mt-2 text-sm sm:text-base text-slate-600">Найди и забронируй свой идеальный маршрут.</p>
+    </div>
+    <form method="GET" class="flex flex-col gap-2">
+        <input name="q" value="{{ q }}" placeholder="Поиск..." class="w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm sm:text-base text-slate-900 focus:border-cyan-500 focus:outline-none" />
+        <button type="submit" class="rounded-2xl bg-cyan-600 px-4 py-3 text-sm font-semibold text-white hover:bg-cyan-700 transition w-full sm:w-auto">Найти</button>
+    </form>
+</div>
+
+<div class="mt-6 sm:mt-8 grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {% for tour in pagination.items %}
+        <article class="rounded-2xl sm:rounded-3xl bg-white border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition">
+            <img src="{{ url_for('static', filename='uploads/' ~ tour.image_file) }}" alt="{{ tour.title }}" class="h-40 sm:h-48 w-full object-cover">
+            <div class="p-4 sm:p-6">
+                <span class="text-xs uppercase tracking-[0.2em] text-slate-500">{{ tour.country }}</span>
+                <h2 class="mt-2 sm:mt-3 text-lg sm:text-xl font-semibold text-slate-900 line-clamp-2">{{ tour.title }}</h2>
+                <p class="mt-2 sm:mt-3 text-sm sm:text-base text-slate-600 line-clamp-2">{{ tour.description }}</p>
+                <div class="mt-4 sm:mt-5 flex items-center justify-between text-sm text-slate-700">
+                    <span>{{ tour.duration }}</span>
+                    <span class="font-semibold">{{ tour.price }} ₽</span>
+                </div>
+                <a href="{{ url_for('tours.tour_detail', tour_id=tour.id) }}" class="mt-3 sm:mt-5 inline-flex text-cyan-600 hover:underline text-sm">Подробнее →</a>
+            </div>
+        </article>
+    {% endfor %}
+</div>
+
+<div class="mt-8 flex flex-col gap-4 items-center justify-center">
+    <div class="text-sm text-slate-600">Страница {{ pagination.page }} из {{ pagination.pages or 1 }}</div>
+    <div class="flex items-center gap-2">
+        {% if pagination.has_prev %}
+            <a href="?q={{ q }}&page={{ pagination.prev_num }}" class="rounded-full border border-slate-300 px-3 sm:px-4 py-2 text-sm hover:bg-slate-100 transition">← Назад</a>
+        {% endif %}
+        {% if pagination.has_next %}
+            <a href="?q={{ q }}&page={{ pagination.next_num }}" class="rounded-full border border-slate-300 px-3 sm:px-4 py-2 text-sm hover:bg-slate-100 transition">Вперед →</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

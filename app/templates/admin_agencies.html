@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Агентства | Admin{% endblock %}
+
+{% block content %}
+<div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+        <h1 class="text-3xl font-semibold text-slate-900">Агентства</h1>
+        <p class="mt-2 text-slate-600">Управляйте списком туристических агентств.</p>
+    </div>
+    <a href="{{ url_for('agencies.add_agency') }}" class="inline-flex items-center rounded-full bg-cyan-600 px-5 py-3 text-sm font-semibold text-white hover:bg-cyan-700">Добавить агентство</a>
+</div>
+<div class="mt-8 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+    <table class="min-w-full divide-y divide-slate-200 text-left text-sm text-slate-700">
+        <thead class="bg-slate-50">
+            <tr>
+                <th class="px-6 py-4 font-semibold">Название</th>
+                <th class="px-6 py-4 font-semibold">Контакты</th>
+                <th class="px-6 py-4 font-semibold">Действие</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-200">
+            {% for agency in agencies %}
+                <tr>
+                    <td class="px-6 py-4">{{ agency.name }}</td>
+                    <td class="px-6 py-4">{{ agency.contact_info }}</td>
+                    <td class="px-6 py-4 space-x-2">
+                        <a href="{{ url_for('agencies.edit_agency', agency_id=agency.id) }}" class="rounded-full border border-cyan-600 px-4 py-2 text-sm font-semibold text-cyan-600 hover:bg-cyan-50">Редактировать</a>
+                        <form method="POST" action="{{ url_for('agencies.delete_agency', agency_id=agency.id) }}" class="inline-block">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button type="submit" class="rounded-full bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

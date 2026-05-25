@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Агентства | Travel NIKO{% endblock %}
+
+{% block content %}
+<div class="flex flex-col gap-4 sm:gap-6 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+        <h1 class="text-2xl sm:text-3xl font-semibold text-slate-900">Туристические агентства</h1>
+        <p class="mt-1 sm:mt-2 text-sm sm:text-base text-slate-600">Изучите компании, которые организуют лучшие поездки.</p>
+    </div>
+    {% if current_user.is_authenticated and current_user.is_admin %}
+        <a href="{{ url_for('agencies.add_agency') }}" class="inline-flex items-center justify-center rounded-full bg-cyan-600 px-4 sm:px-5 py-2 sm:py-3 text-xs sm:text-sm font-semibold text-white hover:bg-cyan-700 transition">+ Добавить</a>
+    {% endif %}
+</div>
+
+<div class="mt-6 sm:mt-8 grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {% for agency in agencies %}
+        <article class="rounded-2xl sm:rounded-3xl bg-white border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition">
+            <img src="{{ url_for('static', filename='uploads/' ~ agency.image_file) }}" alt="{{ agency.name }}" class="h-40 sm:h-48 w-full object-cover">
+            <div class="p-4 sm:p-6">
+                <h2 class="text-lg sm:text-xl font-semibold text-slate-900 line-clamp-1">{{ agency.name }}</h2>
+                <p class="mt-2 sm:mt-3 text-sm sm:text-base text-slate-600 line-clamp-2">{{ agency.description }}</p>
+                <a href="{{ url_for('agencies.agency_detail', agency_id=agency.id) }}" class="mt-3 sm:mt-4 inline-flex text-cyan-600 hover:underline text-sm">Подробнее →</a>
+            </div>
+        </article>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Пользователи | Admin{% endblock %}
+
+{% block content %}
+<div class="flex items-center justify-between">
+    <div>
+        <h1 class="text-3xl font-semibold text-slate-900">Пользователи</h1>
+        <p class="mt-2 text-slate-600">Управление правами и списком пользователей.</p>
+    </div>
+</div>
+<div class="mt-8 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+    <table class="min-w-full divide-y divide-slate-200 text-left text-sm text-slate-700">
+        <thead class="bg-slate-50">
+            <tr>
+                <th class="px-6 py-4 font-semibold">Имя</th>
+                <th class="px-6 py-4 font-semibold">Email</th>
+                <th class="px-6 py-4 font-semibold">Роль</th>
+                <th class="px-6 py-4 font-semibold">Действие</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-200">
+            {% for user in users %}
+                <tr>
+                    <td class="px-6 py-4">{{ user.name }}</td>
+                    <td class="px-6 py-4">{{ user.email }}</td>
+                    <td class="px-6 py-4">{{ 'Администратор' if user.is_admin else 'Пользователь' }}</td>
+                    <td class="px-6 py-4">
+                        <form method="POST" action="{{ url_for('admin.toggle_user_admin', user_id=user.id) }}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button type="submit" class="rounded-full bg-cyan-600 px-4 py-2 text-sm font-semibold text-white hover:bg-cyan-700">{{ 'Снять админ' if user.is_admin else 'Сделать админом' }}</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

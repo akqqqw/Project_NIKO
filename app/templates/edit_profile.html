@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Редактирование профиля | Travel NIKO{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white rounded-2xl sm:rounded-3xl border border-slate-200 p-4 sm:p-8 shadow-sm">
+    <h1 class="text-2xl sm:text-3xl font-semibold text-slate-900">Редактирование профиля</h1>
+    <form method="POST" enctype="multipart/form-data" class="mt-6 sm:mt-8 space-y-4 sm:space-y-5">
+        {{ form.hidden_tag() }}
+        <div class="grid gap-4 sm:gap-5 sm:grid-cols-2">
+            <label class="block">
+                <span class="text-sm font-medium text-slate-700">Имя</span>
+                {{ form.name(class_='mt-2 block w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm sm:text-base text-slate-900 focus:border-cyan-500 focus:outline-none') }}
+            </label>
+            <label class="block">
+                <span class="text-sm font-medium text-slate-700">Email</span>
+                {{ form.email(class_='mt-2 block w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm sm:text-base text-slate-900 focus:border-cyan-500 focus:outline-none') }}
+            </label>
+        </div>
+        <label class="block">
+            <span class="text-sm font-medium text-slate-700">Фото профиля</span>
+            <input type="file" name="image" accept="image/*" class="mt-2 block w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-900" />
+        </label>
+        <button type="submit" class="inline-flex justify-center rounded-2xl bg-cyan-600 px-4 sm:px-6 py-3 text-sm font-semibold text-white hover:bg-cyan-700 transition w-full sm:w-auto">Сохранить изменения</button>
+    </form>
+</div>
+{% endblock %}

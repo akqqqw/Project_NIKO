@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Админпанель | Travel NIKO{% endblock %}
+
+{% block content %}
+<div class="grid gap-6 lg:grid-cols-3">
+    <div class="rounded-3xl bg-white border border-slate-200 p-8 shadow-sm">
+        <h2 class="text-xl font-semibold text-slate-900">Пользователей</h2>
+        <p class="mt-4 text-4xl font-semibold text-cyan-600">{{ user_count }}</p>
+    </div>
+    <div class="rounded-3xl bg-white border border-slate-200 p-8 shadow-sm">
+        <h2 class="text-xl font-semibold text-slate-900">Туров</h2>
+        <p class="mt-4 text-4xl font-semibold text-cyan-600">{{ tour_count }}</p>
+    </div>
+    <div class="rounded-3xl bg-white border border-slate-200 p-8 shadow-sm">
+        <h2 class="text-xl font-semibold text-slate-900">Агентств</h2>
+        <p class="mt-4 text-4xl font-semibold text-cyan-600">{{ agency_count }}</p>
+    </div>
+</div>
+<div class="mt-8 grid gap-6 lg:grid-cols-3">
+    <a href="{{ url_for('admin.manage_users') }}" class="rounded-3xl bg-cyan-600 p-8 text-white shadow-sm hover:bg-cyan-700">Управление пользователями</a>
+    <a href="{{ url_for('admin.manage_tours') }}" class="rounded-3xl bg-slate-900 p-8 text-white shadow-sm hover:bg-slate-800">Управление турами</a>
+    <a href="{{ url_for('admin.manage_agencies') }}" class="rounded-3xl bg-slate-700 p-8 text-white shadow-sm hover:bg-slate-600">Управление агентствами</a>
+</div>
+{% endblock %}

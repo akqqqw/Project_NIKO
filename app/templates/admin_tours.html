@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Туры | Admin{% endblock %}
+
+{% block content %}
+<div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+        <h1 class="text-3xl font-semibold text-slate-900">Туры</h1>
+        <p class="mt-2 text-slate-600">Список всех туров в системе.</p>
+    </div>
+    <a href="{{ url_for('tours.add_tour') }}" class="inline-flex items-center rounded-full bg-cyan-600 px-5 py-3 text-sm font-semibold text-white hover:bg-cyan-700">Добавить тур</a>
+</div>
+<div class="mt-8 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+    <table class="min-w-full divide-y divide-slate-200 text-left text-sm text-slate-700">
+        <thead class="bg-slate-50">
+            <tr>
+                <th class="px-6 py-4 font-semibold">Название</th>
+                <th class="px-6 py-4 font-semibold">Агентство</th>
+                <th class="px-6 py-4 font-semibold">Цена</th>
+                <th class="px-6 py-4 font-semibold">Действие</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-200">
+            {% for tour in tours %}
+                <tr>
+                    <td class="px-6 py-4">{{ tour.title }}</td>
+                    <td class="px-6 py-4">{{ tour.agency.name }}</td>
+                    <td class="px-6 py-4">{{ tour.price }} ₽</td>
+                    <td class="px-6 py-4 space-x-2">
+                        <a href="{{ url_for('tours.edit_tour', tour_id=tour.id) }}" class="rounded-full border border-cyan-600 px-4 py-2 text-sm font-semibold text-cyan-600 hover:bg-cyan-50">Редактировать</a>
+                        <form method="POST" action="{{ url_for('tours.delete_tour', tour_id=tour.id) }}" class="inline-block">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button type="submit" class="rounded-full bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
